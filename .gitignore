@@ -1,0 +1,8 @@
+# build directory
+build/
+
+# cache
+.cache/
+
+# for LSP
+compile_commands.json
