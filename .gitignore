@@ -1,8 +1,14 @@
-# build directory
+# Build directory
 build/
 
-# cache
+# Cache
 .cache/
 
-# for LSP
+# For LSP
 compile_commands.json
+
+# Clion
+.idea
+
+# Formatter
+.clang-format

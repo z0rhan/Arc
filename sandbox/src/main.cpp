@@ -1,17 +1,13 @@
-#include "physics-engine.h"
-
-#include <iostream>
+#include <core/logger.h>
+#include <core/asserts.h>
 
 int main()
 {
-    PhysicsEngine::Application app;
+    ARC_FATAL("A test message: {}", "Testing");
+    ARC_ERROR("A test message: {} {}", "Testing", 1);
+    ARC_WARN("A test message: {}", "Testing");
+    ARC_INFO("A test message: {}", "Testing");
 
-    if (!app.init())
-    {
-        return EXIT_FAILURE;
-    }
-    
-    app.run();
-
+    ARC_ASSERT_MSG(1 == 0, "1 is not equal to 0");
     return 0;
 }

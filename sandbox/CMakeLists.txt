@@ -1,18 +1,15 @@
-set(CMAKE_CXX_STANDARD 17)
-find_package(OpenGL REQUIRED)
-
 set (SOURCE
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 )
 
-add_executable(example-app ${SOURCE})
+add_executable(app ${SOURCE})
 
-target_include_directories(example-app
+target_include_directories(app
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/physics-engine/src
+    ${CMAKE_SOURCE_DIR}/engine/src
 )
 
-target_link_libraries(example-app
+target_link_libraries(app
     PRIVATE
-        physics
+        engine
 )
