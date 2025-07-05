@@ -1,6 +1,9 @@
 #include <core/logger.h>
 #include <core/asserts.h>
 
+#include <platform/platform.h>
+#include <window/window.h>
+
 int main()
 {
     ARC_FATAL("A test message: {}", "Testing");
@@ -8,6 +11,18 @@ int main()
     ARC_WARN("A test message: {}", "Testing");
     ARC_INFO("A test message: {}", "Testing");
 
-    ARC_ASSERT_MSG(1 == 0, "1 is not equal to 0");
+    WindowState state;
+    if (windowStarup(&state, "Test", 0, 0, 800, 600))
+    {
+        while (TRUE)
+        {
+            if (!windowPumpMsg(&state))
+            {
+                break;
+            }
+            windowSwapBuffers(&state);
+        }
+    }
+
     return 0;
 }

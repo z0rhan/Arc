@@ -12,7 +12,7 @@ void shutdownLogger()
     // TODO: Cleanup logging
 }
 
-void reportAssertionFailure(const char *expression, const char *message, const char *file, int line)
+ARC_API void reportAssertionFailure(const char *expression, const char *message, const char *file, int32_t line)
 {
     if (*message == 0)
         logOutput(LogLevel::FATAL, "Assertion Failure: {}, in file: {}: {}", expression, file, line); 

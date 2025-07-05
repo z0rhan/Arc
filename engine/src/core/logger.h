@@ -2,6 +2,7 @@
 #define LOGGER_HH
 
 #include "defines.h"
+#include "platform/platform.h"
 #include <format>
 #include <iostream>
 #include <string>
@@ -41,20 +42,20 @@ constexpr std::string_view logLevelStrings[6] = {
 };
 
 template <typename... Args>
-ARC_API void logOutput(LogLevel level, std::format_string<Args...> fmt, Args&&... args)
+void logOutput(LogLevel level, std::format_string<Args...> fmt, Args&&... args)
 {
     bool isError = static_cast<int>(level) < static_cast<int>(LogLevel::ERROR);
 
     std::string message = std::format(fmt, std::forward<Args>(args)...);
     std::string_view prefix = logLevelStrings[static_cast<int>(level)];
 
-    std::string fullMsg = std::format("{}{}\n", prefix, message);
+    std::string fullMsg = std::format("{}{}", prefix, message);
 
-    // TODO: Platform Specific output
+    // Platform Specific output
     if (isError)
-        std::cerr << fullMsg;
+        platformConsoleWrite(fullMsg.c_str(), static_cast<uint8_t>(level));
     else
-        std::cout << fullMsg;
+        platformConsoleWriteError(fullMsg.c_str(), static_cast<uint8_t>(level));
 }
 
 // Log Fatal messages
