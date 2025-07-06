@@ -1,28 +1,14 @@
-#include <core/logger.h>
-#include <core/asserts.h>
+#include "ARC.h"
+#include "entrypoint.h"
 
-#include <platform/platform.h>
-#include <window/window.h>
-
-int main()
+Application* createApplication()
 {
-    ARC_FATAL("A test message: {}", "Testing");
-    ARC_ERROR("A test message: {} {}", "Testing", 1);
-    ARC_WARN("A test message: {}", "Testing");
-    ARC_INFO("A test message: {}", "Testing");
+    ApplicationConfig config;
+    config.name_ = "Test";
+    config.startPosX_ = 100;
+    config.startPosY_ = 100;
+    config.startWidth_ = 800;
+    config.startHeight_ = 600;
 
-    WindowState state;
-    if (windowStarup(&state, "Test", 0, 0, 800, 600))
-    {
-        while (TRUE)
-        {
-            if (!windowPumpMsg(&state))
-            {
-                break;
-            }
-            windowSwapBuffers(&state);
-        }
-    }
-
-    return 0;
+    return new Application(config);
 }
