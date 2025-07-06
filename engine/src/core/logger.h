@@ -44,18 +44,18 @@ constexpr std::string_view logLevelStrings[6] = {
 template <typename... Args>
 void logOutput(LogLevel level, std::format_string<Args...> fmt, Args&&... args)
 {
-    bool isError = static_cast<int>(level) < static_cast<int>(LogLevel::ERROR);
+    bool isError = static_cast<int>(level) <= static_cast<int>(LogLevel::ERROR);
 
     std::string message = std::format(fmt, std::forward<Args>(args)...);
     std::string_view prefix = logLevelStrings[static_cast<int>(level)];
 
-    std::string fullMsg = std::format("{}{}", prefix, message);
+    std::string fullMsg = std::format("{}{}\n", prefix, message);
 
-    // Platform Specific output
+    // Platform Specific output - Fixed logic
     if (isError)
-        platformConsoleWrite(fullMsg.c_str(), static_cast<uint8_t>(level));
-    else
         platformConsoleWriteError(fullMsg.c_str(), static_cast<uint8_t>(level));
+    else
+        platformConsoleWrite(fullMsg.c_str(), static_cast<uint8_t>(level));
 }
 
 // Log Fatal messages

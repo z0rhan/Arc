@@ -44,7 +44,7 @@ bool WindowGLFW::init()
     return TRUE;
 }
 
-bool WindowGLFW::shoudlWindowClose()
+bool WindowGLFW::shouldWindowClose()
 {
     return glfwWindowShouldClose(m_window);
 }

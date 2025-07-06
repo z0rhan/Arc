@@ -41,7 +41,7 @@ void platformConsoleWrite(const char* msg, uint8_t color)
 {
     // FATAL, ERROR, WARN, INFO, DEBUG, TRACE
     const char* colorStrings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
-    std::cout << "\033[" << colorStrings[color] << "m" << msg << "\033[0m" << std::endl;
+    std::cout << "\033[" << colorStrings[color] << "m" << msg << "\033[0m";
     // Doesn't work with std::format for some reason
     //std::cout << std::format("\330[{}m{}\033[0m\n", colorStrings[color], msg);
 }
@@ -50,7 +50,7 @@ void platformConsoleWriteError(const char* msg, uint8_t color)
 {
     // FATAL, ERROR, WARN, INFO, DEBUG, TRACE
     const char* colorStrings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
-    std::cout << "\033[" << colorStrings[color] << "m" << msg << "\033[0m" << std::endl;
+    std::cout << "\033[" << colorStrings[color] << "m" << msg << "\033[0m";
 }
 
 double platformGetAbsoluteTime()

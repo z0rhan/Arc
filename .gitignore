@@ -12,3 +12,6 @@ compile_commands.json
 
 # Formatter
 .clang-format
+
+# Good stuffs
+good-stuff/

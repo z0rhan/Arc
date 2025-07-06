@@ -2,12 +2,13 @@
 #define APPLICATION_HH
 
 #include "defines.h"
-#include "renderer/GL_context_glfw.h"
-#include "window/window_glfw.h"
+#include "window/window.h"
+#include "renderer/GL_context.h"
+#include <memory>
 
 struct ApplicationConfig
 {
-    char*       name_;
+    const char* name_;        // Use const char* for string literals
     int32_t     startWidth_;
     int32_t     startHeight_;
     int32_t     startPosX_;
@@ -18,15 +19,29 @@ class Application
 {
 public:
     explicit Application(const ApplicationConfig& config);
-    virtual ~Application();
+    virtual ~Application() = default;
 
+    bool initialize();
     void run();
+    void shutdown();
+
+protected:
+    // Allow derived applications to override behavior
+    virtual bool onInitialize() = 0;
+    virtual void onUpdate(float deltaTime) = 0;
+    virtual void onRender() = 0;
+    virtual void onShutdown() = 0;
+
 private:
     ApplicationConfig m_config;
+    std::unique_ptr<Window> m_window;
+    std::unique_ptr<Context> m_context;
     bool m_initialized = false;
     bool m_isRunning = false;
+    
+    static Application* s_instance;
 };
 
-Application* createApplication();
+std::unique_ptr<Application> createApplication();
 
 #endif // APPLICATION_HH

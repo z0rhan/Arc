@@ -1,14 +1,42 @@
-#include "ARC.h"
+#include "core/application.h"
+#include "core/logger.h"
 #include "entrypoint.h"
 
-Application* createApplication()
+const ApplicationConfig c_config
 {
-    ApplicationConfig config;
-    config.name_ = "Test";
-    config.startPosX_ = 100;
-    config.startPosY_ = 100;
-    config.startWidth_ = 800;
-    config.startHeight_ = 600;
+    "Sandbox Application",  // name_
+    800,                    // startWidth_
+    600,                    // startHeight_
+    100,                    // startPosX_
+    100                     // startPosY_
+};
 
-    return new Application(config);
+class SandboxApp : public Application
+{
+public:
+    SandboxApp() : Application(c_config) {}
+
+protected:
+    bool onInitialize() override
+    {
+        return true;
+    }
+
+    void onUpdate(float deltaTime) override
+    {
+    }
+
+    void onRender() override
+    {
+    }
+
+    void onShutdown() override
+    {
+    }
+};
+
+// Engine expects this function to return std::unique_ptr<Application>
+std::unique_ptr<Application> createApplication()
+{
+    return std::make_unique<SandboxApp>();
 }

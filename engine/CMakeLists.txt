@@ -2,6 +2,7 @@ set(ENGINESOURCE
     # Core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/logger.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/core/application.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core/factory.cpp
 
     # Platform
     ${CMAKE_CURRENT_SOURCE_DIR}/src/platform/platform_win32.cpp
@@ -15,8 +16,6 @@ set(ENGINESOURCE
 
     # Glad
     ${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c
-        src/entrypoint.h
-        src/ARC.h
 )
 
 add_library(engine SHARED ${ENGINESOURCE})

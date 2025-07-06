@@ -3,18 +3,16 @@
 
 #include "core/logger.h"
 #include "core/application.h"
+#include <memory>
 
-extern Application* createApplication();
+extern std::unique_ptr<Application> createApplication();
 
 int main()
 {
-    auto* app = createApplication();
-    ARC_INFO("New application created")
+    auto app = createApplication();
 
-    ARC_INFO("Application running")
     app->run();
 
-    delete app;
     return 0;
 }
 

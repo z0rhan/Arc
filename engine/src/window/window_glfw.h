@@ -4,6 +4,7 @@
 #include "window.h"
 #include "defines.h"
 
+#include <glad/glad.h>  // Must be included before GLFW
 #include <GLFW/glfw3.h>
 #include <string>
 
@@ -24,7 +25,7 @@ public:
     ~WindowGLFW() override;
 
     bool init() override;
-    bool shoudlWindowClose() override;
+    bool shouldWindowClose() override;
     void pollEvents() override;
 
     inline uint32_t getWidth() const {return m_config.width_;};
