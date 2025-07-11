@@ -6,10 +6,24 @@
 #include "core/logger.h"
 
 #include <cstring>
+#include <iostream>
+#include <new> // ::operator new
 
 #if _POSIX_C_SOURCE >= 199309L
 #include <time.h> // nanosleep
+#else
+#include <unistd.h>
 #endif
+
+constexpr const char* ANSI_COLORS[] = {
+    "\033[0;41m",  // FATAL - Red background
+    "\033[1;31m",  // ERROR - Bright red
+    "\033[1;33m",  // WARN  - Bright yellow
+    "\033[1;32m",  // INFO  - Bright green
+    "\033[1;34m",  // DEBUG - Bright blue
+    "\033[1;30m"   // TRACE - Bright black (gray)
+};
+constexpr const char* ANSI_RESET = "\033[0m";
 
 // Memory allocation
 void* platformAlloc(uint64_t size, bool aligned)
@@ -37,20 +51,31 @@ void* platformCopyMemory(void* dest, const void* source, uint64_t size){
     return std::memcpy(dest, source, static_cast<size_t>(size));
 }
 
+// Write to console
 void platformConsoleWrite(const char* msg, uint8_t color)
 {
-    // FATAL, ERROR, WARN, INFO, DEBUG, TRACE
-    const char* colorStrings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
-    std::cout << "\033[" << colorStrings[color] << "m" << msg << "\033[0m";
+    if (color < 6)
+    {
+        std::cout << ANSI_COLORS[color] << msg << ANSI_RESET;
+    }
+    else
+    {
+        std::cout << msg;
+    }
     // Doesn't work with std::format for some reason
     //std::cout << std::format("\330[{}m{}\033[0m\n", colorStrings[color], msg);
 }
 
 void platformConsoleWriteError(const char* msg, uint8_t color)
 {
-    // FATAL, ERROR, WARN, INFO, DEBUG, TRACE
-    const char* colorStrings[] = {"0;41", "1;31", "1;33", "1;32", "1;34", "1;30"};
-    std::cout << "\033[" << colorStrings[color] << "m" << msg << "\033[0m";
+    if (color < 6)
+    {
+        std::cout << ANSI_COLORS[color] << msg << ANSI_RESET;
+    }
+    else
+    {
+        std::cout << msg;
+    }
 }
 
 double platformGetAbsoluteTime()
@@ -73,9 +98,9 @@ void platformSleep(uint64_t ms)
     {
         sleep(ms / 1000);
     }
-    unsleep((ms % 1000) * 1000);
+    usleep((ms % 1000) * 1000);
 #endif
 }
 
 
-#endif
+#endif // ARC_PLATFORM_LINUX

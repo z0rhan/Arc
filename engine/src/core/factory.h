@@ -5,8 +5,6 @@
 #include "renderer/GL_context.h"
 #include <memory>
 
-struct WindowConfig;
-
 class EngineFactory 
 {
 public:

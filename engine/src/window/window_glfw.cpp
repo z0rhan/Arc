@@ -1,5 +1,8 @@
 #include "window_glfw.h"
 #include "core/logger.h"
+#include "event/glfwIntegration.h"
+#include "event/event_dispatcher.h"
+#include "event/event_key.h"
 
 #include <GLFW/glfw3.h>
 
@@ -41,6 +44,9 @@ bool WindowGLFW::init()
     // Wayland does not support window positioning
     // glfwSetWindowPos(m_window, m_config.startPosX_, m_config.startPosY_);
 
+    // Set up event handling
+    setupEventHandle();
+
     return TRUE;
 }
 
@@ -57,5 +63,21 @@ void WindowGLFW::pollEvents()
 void WindowGLFW::GLFWErrorCallBack(int32_t error, const char* desc)
 {
     ARC_ERROR("GLFW Error: {} : {}", error, desc);
+}
+
+void WindowGLFW::setupEventHandle()
+{
+    // Set up GLFW key event integration
+    GLFWIntegration::setupKeyEvents(m_window);
+
+    // Subscribe to key press events for window management
+    EventDispatcher::subscribe<KeyPressedEvent>([this](const KeyPressedEvent& event) {
+        if (event.getKeyCode() == GLFW_KEY_ESCAPE) {
+            ARC_INFO("ESC key pressed - closing window");
+            glfwSetWindowShouldClose(m_window, GLFW_TRUE);
+        }
+        event.m_handled = TRUE;
+    });
+
 }
 

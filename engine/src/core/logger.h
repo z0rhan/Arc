@@ -59,37 +59,37 @@ void logOutput(LogLevel level, std::format_string<Args...> fmt, Args&&... args)
 }
 
 // Log Fatal messages
-#define ARC_FATAL(message, ...) logOutput(LogLevel::FATAL, message, ##__VA_ARGS__);
+#define ARC_FATAL(message, ...) logOutput(LogLevel::FATAL, message __VA_OPT__(,) __VA_ARGS__);
 
 // Log Error messages
 #ifndef ARC_ERROR
-#define ARC_ERROR(message, ...) logOutput(LogLevel::ERROR, message, ##__VA_ARGS__);
+#define ARC_ERROR(message, ...) logOutput(LogLevel::ERROR, message __VA_OPT__(,) __VA_ARGS__);
 #endif
 
 // Log Warn messages if enabled
 #if LOG_WARN_ENABLED == 1
-#define ARC_WARN(message, ...) logOutput(LogLevel::WARN, message, ##__VA_ARGS__);
+#define ARC_WARN(message, ...) logOutput(LogLevel::WARN, message __VA_OPT__(,) __VA_ARGS__);
 #else
 #define ARC_WARN(message, ...)
 #endif
 
 // Log Info messages if enabled
 #if LOG_INFO_ENABLED == 1
-#define ARC_INFO(message, ...) logOutput(LogLevel::INFO, message, ##__VA_ARGS__);
+#define ARC_INFO(message, ...) logOutput(LogLevel::INFO, message __VA_OPT__(,) __VA_ARGS__);
 #else
 #define ARC_INFO(message, ...)
 #endif
 
 // Log Debug messages if enabled
 #if LOG_DEBUG_ENABLED == 1
-#define ARC_DEBUG(message, ...) logOutput(LogLevel::DEBUG, message, ##__VA_ARGS__);
+#define ARC_DEBUG(message, ...) logOutput(LogLevel::DEBUG, message __VA_OPT__(,) __VA_ARGS__);
 #else
 #define ARC_DEBUG(message, ...)
 #endif
 
 // Log Trace messages if enabled
 #if LOG_TRACE_ENABLED == 1
-#define ARC_TRACE(message, ...) logOutput(LogLevel::TRACE, message, ##__VA_ARGS__);
+#define ARC_TRACE(message, ...) logOutput(LogLevel::TRACE, message __VA_OPT__(,) __VA_ARGS__);
 #else
 #define ARC_TRACE(message, ...)
 #endif
