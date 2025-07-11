@@ -49,7 +49,7 @@ void logOutput(LogLevel level, std::format_string<Args...> fmt, Args&&... args)
     std::string message = std::format(fmt, std::forward<Args>(args)...);
     std::string_view prefix = logLevelStrings[static_cast<int>(level)];
 
-    std::string fullMsg = std::format("{}{}\n", prefix, message);
+    std::string fullMsg = std::format("{}{}", prefix, message);
 
     // Platform Specific output - Fixed logic
     if (isError)

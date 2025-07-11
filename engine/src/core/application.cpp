@@ -20,6 +20,12 @@ Application::Application(const ApplicationConfig& config):
 
 bool Application::initialize()
 {
+    if (!isConfigValid())
+    {
+        ARC_FATAL("Invalid application configuration.");
+        return false;
+    }
+
     if (m_initialized)
     {
         ARC_WARN("Application already initialized!")
@@ -114,6 +120,11 @@ void Application::run()
 
 void Application::shutdown()
 {
+    if (s_instance == this)
+    {
+        s_instance = nullptr;
+    }
+
     if (!m_initialized)
     {
         return;
@@ -131,10 +142,28 @@ void Application::shutdown()
     m_initialized = false;
     m_isRunning = false;
 
-    if (s_instance == this)
+    ARC_INFO("Application shutdown complete")
+}
+
+bool Application::isConfigValid() const
+{
+    if (m_config.name_ == nullptr || m_config.name_[0] == '\0')
     {
-        s_instance = nullptr;
+        ARC_ERROR("Config validation failed: name is null or empty");
+        return false;
     }
 
-    ARC_INFO("Application shutdown complete")
+    if (m_config.startWidth_ <= 0 || m_config.startHeight_ <= 0)
+    {
+        ARC_ERROR("Config validation failed: invalid window dimensions");
+        return false;
+    }
+
+    if (m_config.startPosX_ < 0 || m_config.startPosY_ < 0)
+    {
+        ARC_ERROR("Config validation failed: invalid window position");
+        return false;
+    }
+
+    return true;
 }

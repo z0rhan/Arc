@@ -40,6 +40,8 @@ private:
     bool m_isRunning = false;
     
     static Application* s_instance;
+
+    bool isConfigValid() const;
 };
 
 std::unique_ptr<Application> createApplication();

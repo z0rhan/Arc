@@ -23,7 +23,7 @@ constexpr const char* ANSI_COLORS[] = {
     "\033[1;34m",  // DEBUG - Bright blue
     "\033[1;30m"   // TRACE - Bright black (gray)
 };
-constexpr const char* ANSI_RESET = "\033[0m";
+constexpr const char* ANSI_RESET = "\033[0m\n";
 
 // Memory allocation
 void* platformAlloc(uint64_t size, bool aligned)
