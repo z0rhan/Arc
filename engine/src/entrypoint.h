@@ -1,7 +1,6 @@
 #ifndef ENTRYPOINT_H
 #define ENTRYPOINT_H
 
-#include "core/logger.h"
 #include "core/application.h"
 #include <memory>
 

@@ -20,7 +20,7 @@ set(ENGINESOURCE
     ${CMAKE_SOURCE_DIR}/vendors/glad/src/glad.c
 )
 
-add_library(engine SHARED ${ENGINESOURCE})
+add_library(engine STATIC ${ENGINESOURCE})
 
 target_include_directories(engine
     PUBLIC
@@ -31,5 +31,5 @@ target_include_directories(engine
 
 target_link_libraries(engine
     PRIVATE
-    ${CMAKE_SOURCE_DIR}/vendors/GLFW/lib/libglfw.so.3.4
+    ${CMAKE_SOURCE_DIR}/vendors/GLFW/lib/libglfw3.a
 )

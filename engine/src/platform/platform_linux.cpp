@@ -70,7 +70,7 @@ void platformConsoleWriteError(const char* msg, uint8_t color)
 {
     if (color < 6)
     {
-        std::cout << ANSI_COLORS[color] << msg << ANSI_RESET;
+        std::cerr << ANSI_COLORS[color] << msg << ANSI_RESET;
     }
     else
     {

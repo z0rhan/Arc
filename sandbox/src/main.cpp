@@ -14,7 +14,7 @@ const ApplicationConfig c_config
 class SandboxApp : public Application
 {
 public:
-    SandboxApp() : Application(c_config) {}
+    SandboxApp(const ApplicationConfig& config) : Application(config) {}
 
 protected:
     bool onInitialize() override
@@ -38,5 +38,5 @@ protected:
 // Engine expects this function to return std::unique_ptr<Application>
 std::unique_ptr<Application> createApplication()
 {
-    return std::make_unique<SandboxApp>();
+    return std::make_unique<SandboxApp>(c_config);
 }

@@ -18,14 +18,18 @@ struct ApplicationConfig
 class Application
 {
 public:
-    explicit Application(const ApplicationConfig& config);
     virtual ~Application() = default;
 
     bool initialize();
     void run();
     void shutdown();
 
+    static Application& getInstance();
+
 protected:
+    // For singleton pattern
+    explicit Application(const ApplicationConfig& config);
+
     // Allow derived applications to override behavior
     virtual bool onInitialize() = 0;
     virtual void onUpdate(float deltaTime) = 0;

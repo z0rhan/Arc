@@ -1,5 +1,5 @@
 #include "core/application.h"
-#include "core/logger.h"
+#include "defines.h"
 #include <memory>
 
 #include <gtest/gtest.h>
@@ -102,22 +102,25 @@ TEST_F(ApplicationTest, InvalidConfigHandling)
     // Currently returns false
     // May change
     EXPECT_FALSE(app->initialize());
+
+    app->shutdown();
 }
 
 TEST_F(ApplicationTest, ApplicationSingleton)
 {
-    auto app1 = std::make_unique<TestApplication>(config);
-    auto app2 = std::make_unique<TestApplication>(config);
-    
-    // Both should be able to initialize, but the second overwrites the first
-    bool init1 = app1->initialize();
-    EXPECT_TRUE(init1);
-    
-    // When the second app is created, it becomes the active singleton
-    bool init2 = app2->initialize();
-    EXPECT_TRUE(init2);
+    auto app = std::make_unique<TestApplication>(config);
+
+    EXPECT_EQ(app.get(), &Application::getInstance());
+
+#ifdef ARC_PLATFORM_LINUX
+    EXPECT_DEATH
+    (
+        { auto app2 = std::make_unique<TestApplication>(config); },
+        "Application already exists!!!"
+    );
+#endif // ARC_PLATFORM_LINUX
     
     // Clean up properly
-    app2->shutdown();
-    app1->shutdown();
+    app->shutdown();
 }
+

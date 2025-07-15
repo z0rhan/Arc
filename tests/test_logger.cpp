@@ -26,7 +26,8 @@ TEST_F(LoggerTest, InitializationAndShutdown)
 TEST_F(LoggerTest, FatalLogging)
 {
     std::stringstream buffer;
-    std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());
+    // Read from cerr, not cout
+    std::streambuf* old = std::cerr.rdbuf(buffer.rdbuf());
     
     ARC_FATAL("Test fatal message");
     
@@ -34,13 +35,14 @@ TEST_F(LoggerTest, FatalLogging)
     EXPECT_TRUE(output.find("FATAL") != std::string::npos);
     EXPECT_TRUE(output.find("Test fatal message") != std::string::npos);
     
-    std::cout.rdbuf(old);
+    std::cerr.rdbuf(old);
 }
 
 TEST_F(LoggerTest, ErrorLogging)
 {
     std::stringstream buffer;
-    std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());
+    // Read from cerr, not cout
+    std::streambuf* old = std::cerr.rdbuf(buffer.rdbuf());
     
     ARC_ERROR("Test error message");
     
@@ -48,7 +50,7 @@ TEST_F(LoggerTest, ErrorLogging)
     EXPECT_TRUE(output.find("ERROR") != std::string::npos);
     EXPECT_TRUE(output.find("Test error message") != std::string::npos);
     
-    std::cout.rdbuf(old);
+    std::cerr.rdbuf(old);
 }
 
 TEST_F(LoggerTest, LogFormatting)

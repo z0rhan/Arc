@@ -1,8 +1,8 @@
 #include "application.h"
 #include "logger.h"
+#include "asserts.h"
 #include "factory.h"
 #include "platform/platform.h"
-#include "window/window_glfw.h"
 
 // Static instance for singleton pattern
 Application* Application::s_instance = nullptr;
@@ -11,11 +11,14 @@ Application::Application(const ApplicationConfig& config):
     m_config(config),
     m_isRunning(false)
 {
-    if (s_instance != nullptr)
-    {
-        ARC_WARN("Application created more than once! Previous instance will be overwritten.")
-    }
+    ARC_ASSERT_MSG(s_instance == nullptr, "Application already exists!!!")
     s_instance = this;
+}
+
+Application& Application::getInstance()
+{
+    ARC_ASSERT_MSG(s_instance != nullptr, "Application instance not created!!!")
+    return *s_instance;
 }
 
 bool Application::initialize()
